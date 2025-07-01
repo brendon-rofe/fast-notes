@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "title": "My First Note",
+    "content": "This is the content of my first note."
+  },
+  {
+    "id": "2",
+    "title": "Another Note",
+    "content": "Here's some more content for another note."
+  }
+]
