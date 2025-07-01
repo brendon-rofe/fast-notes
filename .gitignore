@@ -74,6 +74,8 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
+.python-version
+uv.lock
 
 # Jupyter Notebook
 .ipynb_checkpoints
