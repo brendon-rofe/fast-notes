@@ -8,6 +8,11 @@ class Note(BaseModel):
   title: str
   content: str
 
+class UpdateNote(BaseModel):
+  id: Optional[int] = None
+  title: Optional[str] = None
+  content: Optional[str] = None
+
 notes = []
 
 with open("notes_data.json") as file:
@@ -38,3 +43,13 @@ def create(note: Note):
 	with open("notes_data.json", "w") as file:
 		json.dump(notes, file, indent=2)
 
+@app.put("/notes/{note_id}")
+def update(note_id: int, updated_note: UpdateNote):
+  for note in notes:
+    if note["id"] == note_id:
+      if updated_note.title is not "":
+        note["title"] = updated_note.title
+      if updated_note.content is not "":
+        note["content"] = updated_note.content
+      with open("notes_data.json", "w") as file:
+        json.dump(notes, file, indent=2)
