@@ -9,7 +9,7 @@ def get_all_notes():
   )
   notes = response.json()
   for note in notes:
-    st.write(f"{note["title"]}")
+    st.subheader(f"{note["title"]}")
     st.write(f"{note["content"]}")
   
 get_all_notes()
