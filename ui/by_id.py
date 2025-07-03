@@ -4,15 +4,22 @@ import requests
 st.header("Find Note By ID:")
 
 note_id = None
+num_notes = None
 
-with st.spinner("Getting number of notes..."):
+@st.cache_data
+def get_notes():
   response = requests.get(
   "http://localhost:8000/notes"
   )
   if response.status_code == 200:
-    num_notes = len(response.json())
+    return response.json()
+  return []
 
-    note_id = st.slider("Pick a note ID", 1, num_notes)
+with st.spinner("Getting number of notes..."):
+  notes = get_notes()
+  num_notes = len(notes)
+
+note_id = st.slider("Pick a note ID", 1, num_notes)
 
 def get_by_id(note_id):
   with st.spinner("Loading note..."):
