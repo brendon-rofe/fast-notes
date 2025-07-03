@@ -1,15 +1,6 @@
 import streamlit as st
-import requests
 
 st.title("Fast Notes")
 
-def get_all_notes():
-  response = requests.get(
-    "http://localhost:8000/notes"
-  )
-  notes = response.json()
-  for note in notes:
-    st.subheader(f"{note["title"]}")
-    st.write(f"{note["content"]}")
-  
-get_all_notes()
+pg = st.navigation([st.Page("all.py", title="All Notes"), st.Page("by_id.py", title="Find By ID")])
+pg.run()
