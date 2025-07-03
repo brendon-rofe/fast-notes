@@ -9,5 +9,8 @@ def get_all_notes():
   for note in notes:
     st.subheader(f"{note["title"]}")
     st.write(f"{note["content"]}")
+    st.divider()
+  
+st.header("All notes:")
   
 get_all_notes()

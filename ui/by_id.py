@@ -12,7 +12,7 @@ def get_by_id(note_id):
   else:
     st.warning("No note with that ID found")
 
-st.header("Find Note By ID")
+st.header("Find Note By ID:")
 
 note_id = st.slider("Pick a note ID", 0, 5)
 
