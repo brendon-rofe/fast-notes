@@ -1,16 +1,16 @@
 import streamlit as st
 import requests
-
-def get_all_notes():
-  response = requests.get(
-    "http://localhost:8000/notes"
-  )
-  notes = response.json()
-  for note in notes:
-    st.subheader(f"{note["title"]}")
-    st.write(f"{note["content"]}")
-    st.divider()
+  
   
 st.header("All notes:")
   
-get_all_notes()
+with st.spinner("Loading all notes..."):
+  response = requests.get(
+    "http://localhost:8000/notes"
+  )
+  if response.status_code == 200:
+    notes = response.json()
+    for note in notes:
+      st.subheader(f"{note["title"]}")
+      st.write(f"{note["content"]}")
+      st.divider()
