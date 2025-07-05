@@ -30,5 +30,15 @@ def get_by_id(note_id):
       note = response.json()
       st.subheader(f"{note["title"]}")
       st.write(f"{note["content"]}")
+      
+      edit = st.button("Edit Note")
+      if edit:
+        with st.form("edit_note_form"):
+          note_title = st.text_input("Title:", placeholder=f"{note["title"]}")
+          note_content = st.text_area("Content", placeholder=f"{note["content"]}")
+          
+          submitted = st.form_submit_button("Update")
+          
+        
 
 get_by_id(note_id)
