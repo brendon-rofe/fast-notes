@@ -11,6 +11,6 @@ with st.spinner("Loading all notes..."):
   if response.status_code == 200:
     notes = response.json()
     for note in notes:
-      st.subheader(f"{note["title"]}")
-      st.write(f"{note["content"]}")
+      st.subheader(note["title"])
+      st.write(note["content"])
       st.divider()
