@@ -35,6 +35,15 @@ def get_by_id(note_id):
       if st.button("Edit Note"):
         st.session_state.editing = True
 
+      if "confirm_delete" not in st.session_state:
+        st.session_state.confirm_delete = False
+
+      if st.button("Delete note", type="primary"):
+        st.session_state.confirm_delete = True
+        response = requests.delete(f"http://localhost:8000/notes/{note_id}")
+        if response.status_code == 200:
+          st.success("Note deleted!")
+              
       if st.session_state.get("editing", False):
         with st.form("edit_note_form"):
           note_title = st.text_input("Title:", value=note['title'])
