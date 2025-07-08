@@ -3,9 +3,6 @@ import requests
 
 st.header("Find Note By ID:")
 
-note_id = None
-num_notes = None
-
 @st.cache_data
 def get_notes():
   response = requests.get(
@@ -15,11 +12,10 @@ def get_notes():
     return response.json()
   return []
 
-with st.spinner("Getting number of notes..."):
-  notes = get_notes()
-  num_notes = len(notes)
-
-note_id = st.slider("Pick a note ID", 1, num_notes)
+if "num_notes" not in st.session_state:
+  with st.spinner("Getting number of notes..."):
+    notes = get_notes()
+    st.session_state.num_notes = len(notes)
 
 def get_by_id(note_id):
   if "note_updated" not in st.session_state:
@@ -56,6 +52,7 @@ def get_by_id(note_id):
               if response.status_code == 200:
                 st.success("Note deleted!")
                 st.session_state.confirm_delete = False
+                st.session_state.num_notes -= 1
                 st.rerun()
               else:
                 st.error("Failed to delete note")
@@ -92,4 +89,8 @@ def get_by_id(note_id):
           st.session_state.editing = False
           st.rerun()
 
-get_by_id(note_id)
+if "num_notes" in st.session_state and st.session_state.num_notes > 0:
+  note_id = st.slider("Pick a note ID", 1, st.session_state.num_notes)
+  get_by_id(note_id)
+else:
+  st.info("No notes available.")
