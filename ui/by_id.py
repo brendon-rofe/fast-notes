@@ -72,5 +72,9 @@ def get_by_id(note_id):
                 st.success("Note Updated")
               else:
                 st.error("Failed to update note")
+        
+        if st.button("Cancel"):
+          st.session_state.editing = False
+          st.rerun()
 
 get_by_id(note_id)
