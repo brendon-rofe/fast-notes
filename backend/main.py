@@ -28,10 +28,12 @@ def get_all():
 
 @app.get("/notes/{note_id}")
 def get_by_id(note_id: int):
-  for note in notes:
-    if note["id"] == note_id:
-      return note
-  return {"Error": "No note with that ID found"}
+  with open("notes_data.json", "r") as f:
+    notes = json.load(f)
+    for note in notes:
+      if note["id"] == note_id:
+        return note
+    return {"Error": "No note with that ID found"}
 
 @app.post("/notes")
 def create(note: Note):
