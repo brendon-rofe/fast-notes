@@ -44,19 +44,24 @@ def get_by_id(note_id):
         st.session_state.confirm_delete = False
 
       with col2:
-        if st.button("🗑️ Delete note", type="primary", use_container_width=True):
+        if st.button("🗑️ Delete Note", type="primary", use_container_width=True):
+          st.session_state.confirm_delete = True
+          
+        if st.session_state.get("confirm_delete", False):
           st.warning("Are you sure you want to delete this note?")
           col3, col4 = st.columns([1, 1])
-          
           with col3:
-            if st.button("Yes", use_container_width=True):
-              st.session_state.confirm_delete = True
+            if st.button("Yes", use_container_width=True, key="confirm_yes"):
               response = requests.delete(f"http://localhost:8000/notes/{note_id}")
               if response.status_code == 200:
                 st.success("Note deleted!")
+                st.session_state.confirm_delete = False
+                st.rerun()
+              else:
+                st.error("Failed to delete note")
           with col4:
-            if st.button("No", use_container_width=True):
-              st.session_state.confirm_delete = True
+            if st.button("No", use_container_width=True, key="confirm_no"):
+              st.session_state.confirm_delete = False
               st.rerun()
               
               

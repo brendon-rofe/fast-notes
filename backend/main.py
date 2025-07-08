@@ -59,8 +59,11 @@ def update(note_id: int, updated_note: UpdateNote):
 
 @app.delete("/notes/{note_id}")
 def delete(note_id: int):
-  for note in notes:
-    if note["id"] == note_id:
-      notes.remove(note)
-      with open("notes_data.json", "w") as file:
-        json.dump(notes, file, indent=2)
+  with open("notes_data.json", "r") as f:
+    notes = json.load(f)
+    for note in notes:
+      if note["id"] == note_id:
+        notes.remove(note)
+        break
+  with open("notes_data.json", "w") as file:
+    json.dump(notes, file, indent=2)
