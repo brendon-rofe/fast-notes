@@ -45,10 +45,20 @@ def get_by_id(note_id):
 
       with col2:
         if st.button("🗑️ Delete note", type="primary", use_container_width=True):
-          st.session_state.confirm_delete = True
-          response = requests.delete(f"http://localhost:8000/notes/{note_id}")
-          if response.status_code == 200:
-            st.success("Note deleted!")
+          st.warning("Are you sure you want to delete this note?")
+          col3, col4 = st.columns([1, 1])
+          
+          with col3:
+            if st.button("Yes", use_container_width=True):
+              st.session_state.confirm_delete = True
+              response = requests.delete(f"http://localhost:8000/notes/{note_id}")
+              if response.status_code == 200:
+                st.success("Note deleted!")
+          with col4:
+            if st.button("No", use_container_width=True):
+              st.session_state.confirm_delete = True
+              st.rerun()
+              
               
       if st.session_state.get("editing", False):
         with st.form("edit_note_form"):
