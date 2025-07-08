@@ -29,20 +29,26 @@ def get_by_id(note_id):
     response = requests.get(f"http://localhost:8000/notes/{note_id}")
     if response.status_code == 200:
       note = response.json()
+      st.divider()
       st.subheader(note['title'])
       st.write(note['content'])
+      st.divider()
 
-      if st.button("Edit Note"):
-        st.session_state.editing = True
+      col1, col2 = st.columns([1, 1])
+
+      with col1:
+        if st.button("✏️ Edit Note", use_container_width=True):
+          st.session_state.editing = True
 
       if "confirm_delete" not in st.session_state:
         st.session_state.confirm_delete = False
 
-      if st.button("Delete note", type="primary"):
-        st.session_state.confirm_delete = True
-        response = requests.delete(f"http://localhost:8000/notes/{note_id}")
-        if response.status_code == 200:
-          st.success("Note deleted!")
+      with col2:
+        if st.button("🗑️ Delete note", type="primary", use_container_width=True):
+          st.session_state.confirm_delete = True
+          response = requests.delete(f"http://localhost:8000/notes/{note_id}")
+          if response.status_code == 200:
+            st.success("Note deleted!")
               
       if st.session_state.get("editing", False):
         with st.form("edit_note_form"):
@@ -66,7 +72,5 @@ def get_by_id(note_id):
                 st.success("Note Updated")
               else:
                 st.error("Failed to update note")
-      else:
-        st.error("Note not found.")  
 
 get_by_id(note_id)
