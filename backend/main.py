@@ -34,15 +34,17 @@ def get_by_id(note_id: int):
 
 @app.post("/notes")
 def create(note: Note):
-	id = len(notes) + 1
-	new_note = {
-		"id": id,
-		"title": note.title,
-		"content": note.content
-	}
-	notes.append(new_note)
-	with open("notes_data.json", "w") as file:
-		json.dump(notes, file, indent=2)
+  with open("notes_data.json", "r") as f:
+    notes = json.load(f)
+    id = len(notes) + 1
+    new_note = {
+      "id": id,
+      "title": note.title,
+      "content": note.content
+    }
+    notes.append(new_note)
+  with open("notes_data.json", "w") as file:
+    json.dump(notes, file, indent=2)
 
 @app.put("/notes/{note_id}")
 def update(note_id: int, updated_note: UpdateNote):
