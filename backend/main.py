@@ -15,9 +15,6 @@ class UpdateNote(BaseModel):
 
 notes = []
 
-with open("notes_data.json") as file:
-  notes = json.load(file)
-
 app = FastAPI()
 
 @app.get("/notes")
@@ -49,14 +46,14 @@ def create(note: Note):
 
 @app.put("/notes/{note_id}")
 def update(note_id: int, updated_note: UpdateNote):
+  with open ("notes_data.json", "r") as f:
+    notes = json.load(f)
   for note in notes:
     if note["id"] == note_id:
-      if updated_note.title is not "":
-        note["title"] = updated_note.title
-      if updated_note.content is not "":
-        note["content"] = updated_note.content
-      with open("notes_data.json", "w") as file:
-        json.dump(notes, file, indent=2)
+      note["title"] = updated_note.title
+      note["content"] = updated_note.content
+  with open("notes_data.json", "w") as file:
+    json.dump(notes, file, indent=2)
 
 @app.delete("/notes/{note_id}")
 def delete(note_id: int):
