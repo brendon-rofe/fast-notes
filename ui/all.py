@@ -2,6 +2,7 @@ import streamlit as st
 import requests
   
 st.header("All notes:")
+st.divider()
   
 with st.spinner("Loading all notes..."):
   response = requests.get(
