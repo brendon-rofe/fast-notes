@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
   
-  
 st.header("All notes:")
   
 with st.spinner("Loading all notes..."):

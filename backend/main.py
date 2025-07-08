@@ -22,7 +22,9 @@ app = FastAPI()
 
 @app.get("/notes")
 def get_all():
-  return notes
+  with open("notes_data.json", "r") as f :
+    notes = json.load(f)
+    return notes
 
 @app.get("/notes/{note_id}")
 def get_by_id(note_id: int):
